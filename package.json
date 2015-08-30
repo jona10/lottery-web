@@ -1,0 +1,23 @@
+{
+  "name": "lottery-web",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lottery.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jona10/lottery-web.git"
+  },
+  "author": "Jonathan Falardeau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jona10/lottery-web/issues"
+  },
+  "homepage": "https://github.com/jona10/lottery-web",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  }
+}
