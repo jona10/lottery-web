@@ -3,7 +3,7 @@ module.exports = function (config) {
         basePath: '',
         frameworks: ['mocha', 'chai'],
         files: [
-            'src/app/public/specs/**/*.spec.js'
+            'src/lottery/public/specs/**/*.spec.js'
         ],
         exclude: [],
         preprocessors: {},
