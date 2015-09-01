@@ -21,6 +21,15 @@
   "homepage": "https://github.com/jona10/lottery-web",
   "devDependencies": {
     "chai": "^3.2.0",
+    "grunt": "^0.4.5",
+    "grunt-karma": "^0.12.0",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-protractor-runner": "^2.1.0",
+    "grunt-protractor-webdriver": "^0.2.0",
+    "karma": "^0.13.9",
+    "karma-chai": "^0.1.0",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.2.0",
     "mocha": "^2.2.5",
     "protractor": "^2.2.0"
   }
