@@ -3,12 +3,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-webdriver');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-coveralls');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        clean: ["reports"],
+        clean: {
+            reports: ["reports"]
+        },
         karma: {
             options: {
                 frameworks: ['mocha', 'chai'],
@@ -61,14 +64,16 @@ module.exports = function (grunt) {
             all: {
                 src: ['reports/coverage/*.info']
             }
+        },
+        jshint: {
+            all: ['Gruntfile.js', 'src/bin/lottery', 'src/**/*.js']
         }
     });
 
-    grunt.registerTask('test:unit', ['karma']);
+    grunt.registerTask('test:unit', ['clean:reports', 'karma']);
     grunt.registerTask('test:e2e', ['connect:test', 'webdriver']);
-    grunt.registerTask('test', ['clean', 'test:unit', 'test:e2e']);
-
-    grunt.registerTask('serve', ['connect:serve']);
-    grunt.registerTask('ci', ['test', 'coveralls']);
-    grunt.registerTask('default', ['test']);
+    grunt.registerTask('test', ['test:unit', 'test:e2e']);
+    grunt.registerTask('serve', ['jshint', 'connect:serve']);
+    grunt.registerTask('ci', ['jshint', 'test', 'coveralls']);
+    grunt.registerTask('default', ['ci']);
 };
