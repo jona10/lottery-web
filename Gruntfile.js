@@ -14,7 +14,7 @@ module.exports = function (grunt) {
                 colors: true,
                 logLevel: 'INFO',
                 autoWatch: false,
-                browsers: ['Chrome'],
+                browsers: ['Firefox'],
                 singleRun: true
             },
             all: {
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
         webdriver: {
             options: {
                 desiredCapabilities: {
-                    browserName: 'chrome'
+                    browserName: 'firefox'
                 }
             },
             all: {
