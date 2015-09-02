@@ -2,6 +2,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-webdriver');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-open');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -33,17 +34,24 @@ module.exports = function (grunt) {
             }
         },
         connect: {
-            server: {
+            options: {
+                port: 3000,
+                base: 'src/lottery/public'
+            },
+            test: {},
+            serve: {
                 options: {
-                    port: 3000,
-                    base: 'src/lottery'
+                    open: true,
+                    livereload: true,
+                    keepalive: true
                 }
             }
         }
     });
 
     grunt.registerTask('test:unit', ['karma']);
-    grunt.registerTask('test:e2e', ['connect', 'webdriver']);
+    grunt.registerTask('test:e2e', ['connect:test', 'webdriver']);
     grunt.registerTask('test', ['test:unit', 'test:e2e']);
+    grunt.registerTask('serve', ['connect:serve']);
     grunt.registerTask('default', ['test']);
 };

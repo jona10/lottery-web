@@ -1,0 +1,8 @@
+var app = require('../lottery/app');
+
+var server = app.listen(process.env.PORT || 3000, 'localhost', function () {
+    var host = server.address().address;
+    var port = server.address().port;
+
+    console.log('Express server is listening at http://%s:%s', host, port);
+});
