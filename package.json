@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/bin/lottery",
   "scripts": {
-    "start": "node src/bin/lottery"
+    "start": "node src/bin/lottery",
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
