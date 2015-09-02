@@ -1,19 +1,10 @@
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-webdriver');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        mochaTest: {
-            all: {
-                options: {
-                    reporter: 'spec'
-                },
-                src: ['src/specs/**/*.spec.js']
-            }
-        },
         karma: {
             options: {
                 frameworks: ['mocha', 'chai'],
@@ -27,17 +18,7 @@ module.exports = function (grunt) {
             },
             all: {
                 options: {
-                    files: ['src/lottery/public/specs/**/*.spec.js']
-                }
-            }
-        },
-        express: {
-            options: {
-                port: 3000
-            },
-            all: {
-                options: {
-                    script: 'src/bin/lottery'
+                    files: ['src/specs/**/*.spec.js']
                 }
             }
         },
@@ -50,12 +31,19 @@ module.exports = function (grunt) {
             all: {
                 tests: ['./src/specs/**/*.e2e.js']
             }
+        },
+        connect: {
+            server: {
+                options: {
+                    port: 3000,
+                    base: 'src/lottery'
+                }
+            }
         }
     });
 
-    grunt.registerTask('test:frontend', ['karma']);
-    grunt.registerTask('test:backend', ['mochaTest']);
-    grunt.registerTask('test:e2e', ['express', 'webdriver']);
-    grunt.registerTask('test', ['test:backend', 'test:frontend', 'test:e2e']);
+    grunt.registerTask('test:unit', ['karma']);
+    grunt.registerTask('test:e2e', ['connect', 'webdriver']);
+    grunt.registerTask('test', ['test:unit', 'test:e2e']);
     grunt.registerTask('default', ['test']);
 };

@@ -2,7 +2,6 @@
   "name": "lottery-web",
   "version": "0.1.0",
   "description": "",
-  "main": "lottery.js",
   "scripts": {},
   "repository": {
     "type": "git",
@@ -16,19 +15,16 @@
   "homepage": "https://github.com/jona10/lottery-web",
   "devDependencies": {
     "chai": "^3.2.0",
-    "express": "^4.13.3",
     "grunt": "^0.4.5",
-    "grunt-express-server": "^0.5.1",
+    "grunt-contrib-connect": "^0.11.2",
     "grunt-karma": "^0.12.0",
-    "grunt-mocha-test": "^0.12.7",
-    "grunt-protractor-runner": "^2.1.0",
     "grunt-webdriver": "^0.5.2",
     "karma": "^0.13.9",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.2.0",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
-    "mocha": "^2.2.5",
+    "mocha": "^2.3.0",
     "webdriverio": "^3.2.1"
   }
 }
