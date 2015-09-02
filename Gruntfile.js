@@ -1,8 +1,8 @@
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
-    grunt.loadNpmTasks('grunt-protractor-runner');
-    grunt.loadNpmTasks('grunt-protractor-webdriver');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-express-server');
+    grunt.loadNpmTasks('grunt-webdriver');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -14,27 +14,48 @@ module.exports = function (grunt) {
                 src: ['src/specs/**/*.spec.js']
             }
         },
-        protractor: {
-            options: {
-                configFile: "e2e.conf.js",
-                webdriverManagerUpdate: true
-            },
-            all: {}
-        },
-        protractor_webdriver: {
-            options: {},
-            all: {}
-        },
         karma: {
+            options: {
+                frameworks: ['mocha', 'chai'],
+                reporters: ['progress'],
+                port: 4000,
+                colors: true,
+                logLevel: 'INFO',
+                autoWatch: false,
+                browsers: ['Chrome'],
+                singleRun: true
+            },
             all: {
-                configFile: 'karma.conf.js'
+                options: {
+                    files: ['src/lottery/public/specs/**/*.spec.js']
+                }
+            }
+        },
+        express: {
+            options: {
+                port: 3000
+            },
+            all: {
+                options: {
+                    script: 'src/bin/lottery'
+                }
+            }
+        },
+        webdriver: {
+            options: {
+                desiredCapabilities: {
+                    browserName: 'chrome'
+                }
+            },
+            all: {
+                tests: ['./src/specs/**/*.e2e.js']
             }
         }
     });
 
     grunt.registerTask('test:frontend', ['karma']);
     grunt.registerTask('test:backend', ['mochaTest']);
-    grunt.registerTask('test:e2e', ['protractor_webdriver', 'protractor']);
+    grunt.registerTask('test:e2e', ['express', 'webdriver']);
     grunt.registerTask('test', ['test:backend', 'test:frontend', 'test:e2e']);
     grunt.registerTask('default', ['test']);
 };
