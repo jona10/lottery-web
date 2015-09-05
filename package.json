@@ -5,7 +5,7 @@
   "main": "dist/bin/lottery",
   "scripts": {
     "start": "node dist/bin/lottery",
-    "postinstall": "grunt build",
+    "postinstall": "./node_modules/.bin/grunt build",
     "test": "grunt ci"
   },
   "repository": {
