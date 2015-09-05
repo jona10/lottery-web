@@ -2,7 +2,7 @@
   "name": "lottery-web",
   "version": "0.1.0",
   "description": "",
-  "main": "src/bin/lottery",
+  "main": "dist/bin/lottery",
   "scripts": {
     "start": "node dist/bin/lottery",
     "test": "grunt ci"
