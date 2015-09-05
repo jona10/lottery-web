@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/bin/lottery",
   "scripts": {
+    "postinstall": "grunt build",
     "start": "node dist/bin/lottery",
     "test": "grunt ci"
   },
