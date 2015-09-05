@@ -1,24 +1,70 @@
 'use strict';
 
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-webdriver');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-coveralls');
+    require('jit-grunt')(grunt, {
+        useminPrepare: 'grunt-usemin'
+    });
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: 'src/lottery',
+                    dest: 'dist/lottery',
+                    src: ['**/*.js', '**/*.html', '!**/public/**/*.js']
+                }, {
+                    expand: true,
+                    dot: true,
+                    cwd: 'src',
+                    dest: 'dist',
+                    src: ['bin/**']
+                }]
+            }
+        },
         clean: {
+            dist: ['dist', '.tmp'],
+            server: ['.tmp'],
             reports: ['reports']
+        },
+        useminPrepare: {
+            html: 'src/lottery/public/index.html',
+            options: {
+                dest: 'dist/lottery/public'
+            }
+        },
+        usemin: {
+            html: ['dist/lottery/public/**/*.html'],
+            css: ['dist/lottery/public/css/**/*.css'],
+            js: ['dist/lottery/public/js/**/*.js'],
+            options: {
+                assetsDirs: [
+                    'dist/lottery/public',
+                    'dist/lottery/public/images',
+                    'dist/lottery/public/css'
+                ],
+                patterns: {
+                    js: [[/(images\/[^'"]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
+                }
+            }
+        },
+        filerev: {
+            dist: {
+                src: [
+                    'dist/lottery/public/js/**/*.js',
+                    'dist/lottery/public/css/**/*.css',
+                    'dist/lottery/public/css/fonts/*',
+                    'dist/lottery/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                ]
+            }
         },
         karma: {
             options: {
                 frameworks: ['mocha', 'chai'],
                 reporters: ['progress', 'coverage'],
-                preprocessors: { 'src/lottery/public/**/*.js': ['coverage'] },
+                preprocessors: {'src/lottery/public/**/*.js': ['coverage']},
                 port: 4000,
                 colors: true,
                 logLevel: 'INFO',
@@ -26,9 +72,9 @@ module.exports = function (grunt) {
                 browsers: ['Firefox'],
                 singleRun: true,
                 coverageReporter: {
-                    dir : 'reports/coverage/',
+                    dir: 'reports/coverage/',
                     reporters: [
-                        { type: 'lcov', subdir: '.' }
+                        {type: 'lcov', subdir: '.'}
                     ]
                 }
             },
@@ -45,21 +91,49 @@ module.exports = function (grunt) {
                 }
             },
             all: {
-                tests: ['./src/specs/**/*.e2e.js']
+                tests: ['src/specs/**/*.e2e.js']
             }
         },
         connect: {
             options: {
                 port: 3000,
-                base: 'src/lottery/public'
+                base: 'src/lottery/public',
+                livereload: 35729
             },
-            test: {},
-            serve: {
+            livereload: {
                 options: {
-                    open: true,
-                    livereload: true,
-                    keepalive: true
+                    open: true
                 }
+            }
+        },
+        watch: {
+            //bower: {
+            //    files: ['bower.json'],
+            //    tasks: ['wiredep']
+            //},
+            js: {
+                files: ['src/lottery/**/*.js'],
+                tasks: ['newer:jshint:all'],
+                options: {
+                    livereload: '<%= connect.options.livereload %>'
+                }
+            },
+            //compass: {
+            //    files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+            //    tasks: ['compass:server', 'autoprefixer:server']
+            //},
+            gruntfile: {
+                files: ['Gruntfile.js']
+            },
+            livereload: {
+                options: {
+                    livereload: '<%= connect.options.livereload %>'
+                },
+                files: [
+                    'src/lottery/public/**/*.html',
+                    '.tmp/styles/**/*.css',
+                    'src/lottery/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                ]
             }
         },
         coveralls: {
@@ -69,17 +143,42 @@ module.exports = function (grunt) {
         },
         jshint: {
             options: {
-                jshintrc: true
+                jshintrc: '.jshintrc',
+                reporter: require('jshint-stylish')
             },
             all: ['Gruntfile.js', 'src/bin/lottery', 'src/**/*.js']
         }
     });
 
-    grunt.registerTask('test:unit', ['clean:reports', 'karma']);
-    grunt.registerTask('test:e2e', ['connect:test', 'webdriver']);
-    grunt.registerTask('test', ['test:unit', 'test:e2e']);
-    grunt.registerTask('build', ['jshint', 'test']);
-    grunt.registerTask('serve', ['build', 'connect:serve']);
-    grunt.registerTask('ci', ['build', 'coveralls']);
+    grunt.registerTask('test', [
+        'clean:reports',
+        'karma',
+        'webdriver'
+    ]);
+
+    grunt.registerTask('build', [
+        'clean:dist',
+        'useminPrepare',
+        'copy:dist',
+        'concat',
+        'uglify',
+        'cssmin',
+        'filerev',
+        'usemin'
+    ]);
+
+    grunt.registerTask('ci', [
+        'jshint',
+        'test',
+        'coveralls',
+        'build'
+    ]);
+
+    grunt.registerTask('serve', [
+        'clean:server',
+        'connect:livereload',
+        'watch'
+    ]);
+
     grunt.registerTask('default', ['ci']);
 };
