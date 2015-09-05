@@ -100,6 +100,7 @@ module.exports = function (grunt) {
                 base: 'src/lottery/public',
                 livereload: 35729
             },
+            test: {},
             livereload: {
                 options: {
                     open: true
@@ -153,6 +154,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:reports',
         'karma',
+        'connect:test',
         'webdriver'
     ]);
 
