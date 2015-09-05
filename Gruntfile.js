@@ -3,7 +3,8 @@
 module.exports = function (grunt) {
     require('jit-grunt')(grunt, {
         useminPrepare: 'grunt-usemin',
-        'start-selenium-server': 'grunt-selenium-server'
+        selenium_start: 'grunt-selenium-webdriver',
+        selenium_stop: 'grunt-selenium-webdriver'
     });
 
     grunt.initConfig({
@@ -64,14 +65,6 @@ module.exports = function (grunt) {
         karma: {
             all: {
                 configFile: 'karma.conf.js'
-            }
-        },
-        'start-selenium-server': {
-            dev: {
-                options: {
-                    autostop: true,
-                    downloadUrl: 'https://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.1.jar'
-                }
             }
         },
         webdriver: {
@@ -140,8 +133,9 @@ module.exports = function (grunt) {
         'clean:reports',
         'karma',
         'connect:test',
-        'start-selenium-server',
-        'webdriver'
+        'selenium_start',
+        'webdriver',
+        'selenium_stop'
     ]);
 
     grunt.registerTask('build', [
