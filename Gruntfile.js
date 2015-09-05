@@ -2,7 +2,8 @@
 
 module.exports = function (grunt) {
     require('jit-grunt')(grunt, {
-        useminPrepare: 'grunt-usemin'
+        useminPrepare: 'grunt-usemin',
+        'start-selenium-server': 'grunt-selenium-server'
     });
 
     grunt.initConfig({
@@ -61,37 +62,21 @@ module.exports = function (grunt) {
             }
         },
         karma: {
-            options: {
-                frameworks: ['mocha', 'chai'],
-                reporters: ['progress', 'coverage'],
-                preprocessors: {'src/lottery/public/**/*.js': ['coverage']},
-                port: 4000,
-                colors: true,
-                logLevel: 'INFO',
-                autoWatch: false,
-                browsers: ['Firefox'],
-                singleRun: true,
-                coverageReporter: {
-                    dir: 'reports/coverage/',
-                    reporters: [
-                        {type: 'lcov', subdir: '.'}
-                    ]
-                }
-            },
             all: {
+                configFile: 'karma.conf.js'
+            }
+        },
+        'start-selenium-server': {
+            dev: {
                 options: {
-                    files: ['src/lottery/public/**/*.js', 'src/specs/**/*.spec.js']
+                    autostop: true,
+                    downloadUrl: 'https://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.1.jar'
                 }
             }
         },
         webdriver: {
-            options: {
-                desiredCapabilities: {
-                    browserName: 'firefox'
-                }
-            },
             all: {
-                tests: ['src/specs/**/*.e2e.js']
+                configFile: 'wdio.conf.js'
             }
         },
         connect: {
@@ -155,6 +140,7 @@ module.exports = function (grunt) {
         'clean:reports',
         'karma',
         'connect:test',
+        'start-selenium-server',
         'webdriver'
     ]);
 

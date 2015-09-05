@@ -26,7 +26,7 @@
     "grunt-coveralls": "^1.0.0",
     "grunt-karma": "^0.12.0",
     "grunt-newer": "^1.1.1",
-    "grunt-open": "^0.2.3",
+    "grunt-selenium-server": "^0.1.6",
     "grunt-webdriver": "^1.0.0",
     "jshint-stylish": "^2.0.1",
     "karma": "^0.13.9",
