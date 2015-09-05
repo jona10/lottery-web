@@ -126,6 +126,22 @@ module.exports = function (grunt) {
                 reporter: require('jshint-stylish')
             },
             all: ['Gruntfile.js', 'src/bin/lottery', 'src/**/*.js']
+        },
+        htmlmin: {
+            dist: {
+                options: {
+                    collapseWhitespace: true,
+                    conservativeCollapse: true,
+                    collapseBooleanAttributes: true,
+                    removeCommentsFromCDATA: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'dist/lottery/public',
+                    src: ['*.html'],
+                    dest: 'dist/lottery/public'
+                }]
+            }
         }
     });
 
@@ -146,7 +162,8 @@ module.exports = function (grunt) {
         'uglify',
         'cssmin',
         'filerev',
-        'usemin'
+        'usemin',
+        'htmlmin'
     ]);
 
     grunt.registerTask('ci', [
