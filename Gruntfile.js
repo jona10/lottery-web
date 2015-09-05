@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-webdriver');
@@ -10,7 +12,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            reports: ["reports"]
+            reports: ['reports']
         },
         karma: {
             options: {
@@ -66,6 +68,9 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
+            options: {
+                jshintrc: true
+            },
             all: ['Gruntfile.js', 'src/bin/lottery', 'src/**/*.js']
         }
     });
@@ -73,7 +78,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test:unit', ['clean:reports', 'karma']);
     grunt.registerTask('test:e2e', ['connect:test', 'webdriver']);
     grunt.registerTask('test', ['test:unit', 'test:e2e']);
-    grunt.registerTask('serve', ['jshint', 'connect:serve']);
-    grunt.registerTask('ci', ['jshint', 'test', 'coveralls']);
+    grunt.registerTask('build', ['jshint', 'test']);
+    grunt.registerTask('serve', ['build', 'connect:serve']);
+    grunt.registerTask('ci', ['build', 'coveralls']);
     grunt.registerTask('default', ['ci']);
 };
