@@ -23,6 +23,23 @@ module.exports = function (grunt) {
                     cwd: 'src',
                     dest: 'dist',
                     src: ['bin/**']
+                }, {
+                    expand: true,
+                    flatten: true,
+                    dot: true,
+                    cwd: 'bower_components',
+                    dest: 'dist/webapp/public/fonts',
+                    src: ['**/fonts/*.*']
+                }]
+            },
+            serve: {
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    dot: true,
+                    cwd: 'bower_components',
+                    dest: '.tmp/fonts',
+                    src: ['**/fonts/*.*']
                 }]
             }
         },
@@ -39,8 +56,8 @@ module.exports = function (grunt) {
         },
         usemin: {
             html: ['dist/webapp/public/**/*.html'],
-            css: ['dist/webapp/public/css/**/*.css'],
-            js: ['dist/webapp/public/js/**/*.js'],
+            css: ['dist/webapp/public/css/*.css'],
+            js: ['dist/webapp/public/js/*.js'],
             options: {
                 assetsDirs: [
                     'dist/webapp/public',
@@ -55,10 +72,10 @@ module.exports = function (grunt) {
         filerev: {
             dist: {
                 src: [
-                    'dist/webapp/public/js/**/*.js',
-                    'dist/webapp/public/css/**/*.css',
-                    'dist/webapp/public/css/fonts/*',
-                    'dist/webapp/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                    'dist/webapp/public/js/*.js',
+                    'dist/webapp/public/css/*.css',
+                    'dist/webapp/public/fonts/*',
+                    'dist/webapp/public/images/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
         },
@@ -76,7 +93,8 @@ module.exports = function (grunt) {
                 src: '<%= karma.all.configFile %>'
             },
             less: {
-                src: ['src/webapp/public/**/*.less']
+                devDependencies: true,
+                src: ['src/webapp/public/less/**/*.less']
             }
         },
         webdriver: {
@@ -106,7 +124,7 @@ module.exports = function (grunt) {
         less: {
             server: {
                 files: {
-                    '.tmp/css/main.css': 'src/less/main.less'
+                    '.tmp/css/main.css': 'src/webapp/public/less/main.less'
                 }
             },
             dist: {
@@ -114,7 +132,7 @@ module.exports = function (grunt) {
                     compress: true
                 },
                 files: {
-                    '.tmp/css/main.css': 'src/less/main.less'
+                    '.tmp/css/main.css': 'src/webapp/public/less/main.less'
                 }
             }
         },
@@ -155,7 +173,7 @@ module.exports = function (grunt) {
                 }
             },
             less: {
-                files: ['src/less/**/*.less'],
+                files: ['src/webapp/public/less/**/*.less'],
                 tasks: ['less:server', 'autoprefixer:server']
             },
             gruntfile: {
@@ -238,6 +256,7 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep',
         'less:server',
+        'copy:serve',
         'autoprefixer:server',
         'connect:livereload',
         'watch'
