@@ -6,7 +6,7 @@ module.exports.config = {
     }],
     logLevel: 'info',
     coloredLogs: true,
-    baseUrl: '',
+    baseUrl: 'http://localhost:3001',
     waitforTimeout: 1000,
     framework: 'mocha',
     reporter: 'spec',

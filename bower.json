@@ -1,0 +1,19 @@
+{
+  "name": "lottery-web",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jona10/lottery-web",
+  "authors": [
+    "Jonathan Falardeau <jonathan.falardeau@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "specs"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "bootstrap-less": "~3.3.4"
+  }
+}

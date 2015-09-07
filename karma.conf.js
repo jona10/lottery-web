@@ -5,7 +5,9 @@ module.exports = function (config) {
         basePath: '',
         frameworks: ['mocha', 'chai'],
         files: [
-            'src/lottery/public/**/*.js',
+            // bower:js
+            // endbower
+            'src/webapp/public/**/*.js',
             'src/specs/**/*.spec.js'
         ],
         exclude: [],
@@ -13,7 +15,7 @@ module.exports = function (config) {
             'src/lottery/public/**/*.js': ['coverage']
         },
         reporters: ['progress', 'coverage'],
-        port: 4000,
+        port: 3001,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: false,

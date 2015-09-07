@@ -14,9 +14,9 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: 'src/lottery',
-                    dest: 'dist/lottery',
-                    src: ['**/*.js', '**/*.html', '!**/public/**/*.js']
+                    cwd: 'src/webapp',
+                    dest: 'dist/webapp',
+                    src: ['**/*.js', '**/*.html', '!**/public/app/**/*.js']
                 }, {
                     expand: true,
                     dot: true,
@@ -32,20 +32,20 @@ module.exports = function (grunt) {
             reports: ['reports']
         },
         useminPrepare: {
-            html: 'src/lottery/public/index.html',
+            html: 'src/webapp/public/index.html',
             options: {
-                dest: 'dist/lottery/public'
+                dest: 'dist/webapp/public'
             }
         },
         usemin: {
-            html: ['dist/lottery/public/**/*.html'],
-            css: ['dist/lottery/public/css/**/*.css'],
-            js: ['dist/lottery/public/js/**/*.js'],
+            html: ['dist/webapp/public/**/*.html'],
+            css: ['dist/webapp/public/css/**/*.css'],
+            js: ['dist/webapp/public/js/**/*.js'],
             options: {
                 assetsDirs: [
-                    'dist/lottery/public',
-                    'dist/lottery/public/images',
-                    'dist/lottery/public/css'
+                    'dist/webapp/public',
+                    'dist/webapp/public/images',
+                    'dist/webapp/public/css'
                 ],
                 patterns: {
                     js: [[/(images\/[^'"]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
@@ -55,16 +55,28 @@ module.exports = function (grunt) {
         filerev: {
             dist: {
                 src: [
-                    'dist/lottery/public/js/**/*.js',
-                    'dist/lottery/public/css/**/*.css',
-                    'dist/lottery/public/css/fonts/*',
-                    'dist/lottery/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                    'dist/webapp/public/js/**/*.js',
+                    'dist/webapp/public/css/**/*.css',
+                    'dist/webapp/public/css/fonts/*',
+                    'dist/webapp/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
         },
         karma: {
             all: {
                 configFile: 'karma.conf.js'
+            }
+        },
+        wiredep: {
+            app: {
+                src: ['src/webapp/public/index.html']
+            },
+            test: {
+                devDependencies: true,
+                src: '<%= karma.all.configFile %>'
+            },
+            less: {
+                src: ['src/webapp/public/**/*.less']
             }
         },
         webdriver: {
@@ -75,32 +87,77 @@ module.exports = function (grunt) {
         connect: {
             options: {
                 port: 3000,
-                base: 'src/lottery/public',
+                base: 'src/webapp/public',
                 livereload: 35729
             },
-            test: {},
+            test: {
+                options: {
+                    port: 3001,
+                    base: ['.tmp', 'bower_components', 'src/specs', '<%= connect.options.base %>']
+                }
+            },
             livereload: {
                 options: {
-                    open: true
+                    open: true,
+                    base: ['.tmp', 'bower_components', '<%= connect.options.base %>']
                 }
             }
         },
+        less: {
+            server: {
+                files: {
+                    '.tmp/css/main.css': 'src/less/main.less'
+                }
+            },
+            dist: {
+                options: {
+                    compress: true
+                },
+                files: {
+                    '.tmp/css/main.css': 'src/less/main.less'
+                }
+            }
+        },
+        autoprefixer: {
+            options: {
+                browsers: ['last 1 version']
+            },
+            server: {
+                options: {
+                    map: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: '.tmp/css',
+                    src: '**/*.css',
+                    dest: '.tmp/css'
+                }]
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '.tmp/css',
+                    src: '**/*.css',
+                    dest: '.tmp/css'
+                }]
+            }
+        },
         watch: {
-            //bower: {
-            //    files: ['bower.json'],
-            //    tasks: ['wiredep']
-            //},
+            bower: {
+                files: ['bower.json'],
+                tasks: ['wiredep']
+            },
             js: {
-                files: ['src/lottery/**/*.js'],
+                files: ['src/webapp/**/*.js'],
                 tasks: ['newer:jshint:all'],
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 }
             },
-            //compass: {
-            //    files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-            //    tasks: ['compass:server', 'autoprefixer:server']
-            //},
+            less: {
+                files: ['src/less/**/*.less'],
+                tasks: ['less:server', 'autoprefixer:server']
+            },
             gruntfile: {
                 files: ['Gruntfile.js']
             },
@@ -109,9 +166,9 @@ module.exports = function (grunt) {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    'src/lottery/public/**/*.html',
-                    '.tmp/styles/**/*.css',
-                    'src/lottery/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                    'src/webapp/public/**/*.html',
+                    '.tmp/css/**/*.css',
+                    'src/webapp/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
         },
@@ -137,9 +194,9 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: 'dist/lottery/public',
+                    cwd: 'dist/webapp/public',
                     src: ['*.html'],
-                    dest: 'dist/lottery/public'
+                    dest: 'dist/webapp/public'
                 }]
             }
         }
@@ -147,6 +204,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', [
         'clean:reports',
+        'wiredep:test',
         'karma',
         'connect:test',
         'selenium_start',
@@ -156,7 +214,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        'wiredep',
         'useminPrepare',
+        'less:dist',
+        'autoprefixer:dist',
         'copy:dist',
         'concat',
         'uglify',
@@ -175,6 +236,9 @@ module.exports = function (grunt) {
 
     grunt.registerTask('serve', [
         'clean:server',
+        'wiredep',
+        'less:server',
+        'autoprefixer:server',
         'connect:livereload',
         'watch'
     ]);
