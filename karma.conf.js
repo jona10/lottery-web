@@ -12,7 +12,7 @@ module.exports = function (config) {
         ],
         exclude: [],
         preprocessors: {
-            'src/lottery/public/**/*.js': ['coverage']
+            'src/webapp/public/**/*.js': ['coverage']
         },
         reporters: ['progress', 'coverage'],
         port: 4000,
