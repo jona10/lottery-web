@@ -15,7 +15,7 @@ module.exports = function (config) {
             'src/lottery/public/**/*.js': ['coverage']
         },
         reporters: ['progress', 'coverage'],
-        port: 3001,
+        port: 4000,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: false,
