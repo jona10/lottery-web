@@ -1,18 +1,25 @@
 (function(lottery){
     'use strict';
-var ticketPrice = 10;
-lottery.TicketVendor = function(ticketNumbers, pot){
+	var ticketPrice = 10;
+	lottery.TicketVendor = function(ticketNumbers, pot){
 
-	this.sell = function(participant){
-		var nextTicketNumber = ticketNumbers.shift();
-		if (!nextTicketNumber)
-			return null;
+		this.activeParticipants = [];
 
-		pot.credit(ticketPrice);
+		this.sell = function(participant){
+			var nextTicketNumber = ticketNumbers.shift();
+			if (!nextTicketNumber){
+				return null;
+			}
 
-		var ticketSold = {number: nextTicketNumber};
-		return ticketSold;
+			pot.credit(ticketPrice);
+
+			var ticketSold = {number: nextTicketNumber};
+
+			participant.ticket = ticketSold;
+			this.activeParticipants.push(participant);
+			
+			return ticketSold;
+		};
 	};
-};
 
 }(window.lottery = window.lottery || {}));

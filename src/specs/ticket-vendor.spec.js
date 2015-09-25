@@ -15,7 +15,7 @@ describe('The ticket vendor', function() {
     	expect(ticketVendor.sell({})).to.deep.equal({number:2});
     });
 
-	it('should return the next tickets available', function() {
+	it('should not return any tickets when the draw is sold out', function() {
     	var ticketVendor = new lottery.TicketVendor([], pot);
     	expect(ticketVendor.sell({})).to.be.null;
     });
@@ -46,7 +46,7 @@ describe('The ticket vendor', function() {
     	expect(pot.creditCalled).to.be.false;
     });
 
-    it.skip('should add the participant to the list of active participants when selling a ticket', function(){
+    it('should add the participant to the list of active participants when selling a ticket', function(){
     	var tickets = [1];
     	var participant = {name: "Audrée"};
     	var ticketVendor = new lottery.TicketVendor(tickets, pot);

@@ -12,14 +12,14 @@ describe('The application', function () {
         });
     });
 
-    it.skip('should display the winner\'s name and their prize after the draw', function(){
+    it('should display the winner\'s name and their prize after the draw', function(){
         browser.url('/');
-        browser.setValue('input#participant-name', 'Audrée');
-        browser.click('button#buy-ticket');
-        browser.getText('li.participant .name').then(function(text){
+        browser.setValue('#ParticipantName', 'Audrée');
+        browser.click('#EnterParticipant');
+        browser.getText('.ParticipantName').then(function(text){
             expect(text).to.equal('Audrée', 'the participant\'s name');
         });
-        browser.getText('li.participant .ticket-number').then(function(text){
+        browser.getText('.TicketNumber').then(function(text){
             expect(text).to.be.within(1, 3, 'the ticket\'s number');
         });
     });
