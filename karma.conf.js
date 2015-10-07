@@ -17,7 +17,7 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage'],
         port: 4000,
         colors: true,
-        logLevel: config.LOG_INFO,
+        logLevel: config.LOG_DEBUG,
         autoWatch: false,
         browsers: ['Firefox'],
         singleRun: true,
