@@ -1,10 +1,7 @@
 (function(lottery) {
     'use strict';
     var ticketPrice = 10;
-    lottery.TicketVendor = function(ticketRoll, pot) {
-
-        this.activeParticipants = [];
-
+    lottery.TicketVendor = function(ticketRoll, pot, participantRegistry) {
         this.sell = function(participant) {
             var ticketSold = ticketRoll.getNext();
             if (!ticketSold) {
@@ -13,7 +10,7 @@
 
             pot.credit(ticketPrice);
             participant.ticket = ticketSold;
-            this.activeParticipants.push(participant);
+            participantRegistry.add(participant);
 
             return ticketSold;
         };

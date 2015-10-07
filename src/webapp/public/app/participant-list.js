@@ -1,26 +1,26 @@
-(function(lottery){
+(function(lottery) {
     'use strict';
-lottery.ParticipantList = function(listElement){
-	
-	this.display = function(participants){
-		var table = document.createElement('table');
-		participants.forEach(function(participant, index){
-			var row = table.insertRow(index);
-			row.classList.add("Participant");
+    lottery.ParticipantList = function(listElement) {
 
-			var nameCell = row.insertCell(0);
-			nameCell.classList.add("ParticipantName");
-			nameCell.innerHTML = participant.name;
+        this.display = function(participants) {
+            var table = document.createElement('table');
+            participants.forEach(function(participant, index) {
+                var row = table.insertRow(index);
+                row.classList.add('Participant');
 
-			var ticketNumberCell = row.insertCell(1);
-			ticketNumberCell.classList.add("TicketNumber");
-			ticketNumberCell.innerHTML = participant.ticket.number.toString();
-		});
+                var nameCell = row.insertCell(0);
+                nameCell.classList.add('ParticipantName');
+                nameCell.innerHTML = participant.name;
 
-		listElement.innerHTML='';
-		listElement.appendChild(table);
-	};
+                var ticketNumberCell = row.insertCell(1);
+                ticketNumberCell.classList.add('TicketNumber');
+                ticketNumberCell.innerHTML = participant.ticket.number.toString();
+            });
 
-};
+            listElement.innerHTML = '';
+            listElement.appendChild(table);
+        };
+
+    };
 
 }(window.lottery = window.lottery || {}));

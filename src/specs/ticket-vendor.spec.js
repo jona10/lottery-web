@@ -5,6 +5,7 @@ var expect = chai.expect;
 describe('The ticket vendor', function() {
     var pot;
     var ticketRoll;
+    var participantRegistry;
     beforeEach(function() {
         pot = {
             credit: function() {}
@@ -16,14 +17,18 @@ describe('The ticket vendor', function() {
                 };
             }
         };
+        participantRegistry = {
+            add: function() {}
+        };
     });
+
     it('should return the next tickets available', function() {
         ticketRoll.getNext = function() {
             return {
                 number: 3
             };
         };
-        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot);
+        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot, participantRegistry);
 
         expect(ticketVendor.sell({})).to.deep.equal({
             number: 3
@@ -35,7 +40,7 @@ describe('The ticket vendor', function() {
             return null;
         };
 
-        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot);
+        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot, participantRegistry);
         expect(ticketVendor.sell({})).to.be.null;
     });
 
@@ -46,7 +51,7 @@ describe('The ticket vendor', function() {
                 this.amountCredited = amount;
             }
         };
-        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot);
+        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot, participantRegistry);
         ticketVendor.sell({});
         expect(pot.amountCredited).to.equal(10);
     });
@@ -61,7 +66,7 @@ describe('The ticket vendor', function() {
                 this.creditCalled = true;
             }
         };
-        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot);
+        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot, participantRegistry);
         ticketVendor.sell({});
         expect(pot.creditCalled).to.be.false;
     });
@@ -70,9 +75,13 @@ describe('The ticket vendor', function() {
         var participant = {
             name: 'Audrée'
         };
-        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot);
+
+        var actual;
+        participantRegistry.add = function(participant){actual=participant;};
+
+        var ticketVendor = new lottery.TicketVendor(ticketRoll, pot, participantRegistry);
         ticketVendor.sell(participant);
-        expect(ticketVendor.activeParticipants).to.contains({
+        expect(actual).to.deep.equal({
             name: 'Audrée',
             ticket: {
                 number: 1
