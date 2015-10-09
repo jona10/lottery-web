@@ -71,7 +71,7 @@
   "wsh": false,
   "yui": false,
   "globals": {
-    "chai": false,
+    "chai": true,
     "lottery": true,
     "browser": false
   }
