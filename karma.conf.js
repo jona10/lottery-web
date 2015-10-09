@@ -3,7 +3,7 @@
 module.exports = function (config) {
     config.set({
         basePath: '',
-        frameworks: ['mocha', 'chai'],
+        frameworks: ['mocha', 'chai-as-promised', 'chai'],
         files: [
             // bower:js
             // endbower
