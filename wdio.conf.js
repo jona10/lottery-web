@@ -2,7 +2,7 @@ module.exports.config = {
     specs: ['src/specs/**/*.e2e.js'],
     exclude: [],
     capabilities: [{
-        browserName: 'firefox'
+        browserName: 'chrome'
     }],
     logLevel: 'info',
     coloredLogs: true,
@@ -10,6 +10,7 @@ module.exports.config = {
     waitforTimeout: 1000,
     framework: 'mocha',
     reporter: 'spec',
+	sync: false,
     mochaOpts: {
         ui: 'bdd'
     }

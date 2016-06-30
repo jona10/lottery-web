@@ -217,11 +217,24 @@ module.exports = function (grunt) {
                     dest: 'dist/webapp/public'
                 }]
             }
-        }
+        },
+		env: {
+			options: {
+			},
+			test: {
+				concat: {
+					"PATH": {
+						value: 'node_modules/chromedriver/lib/chromedriver',
+						delimiter: ';'
+					}
+				}
+			}
+		}
     });
 
     grunt.registerTask('test', [
         'clean:reports',
+		'env:test',
         'wiredep:test',
         'karma',
         'connect:test',
