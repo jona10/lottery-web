@@ -18,6 +18,11 @@
             participantList.display(participantRegistry.getAll());
         });
 
+        var draw = new lottery.Draw(participantRegistry);
+        document.getElementById('Draw').addEventListener('click', function() {
+            draw.Draw();
+        });
+
     });
 
 }(window.lottery = window.lottery || {}));
