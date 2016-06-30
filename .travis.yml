@@ -1,17 +1,16 @@
 language: node_js
-sudo: true
+sudo: required
+addons:
+  packages:
+    - google-chrome-stable
 node_js:
-- '4.4'
+- '6.2'
 before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - sleep 3
-- sudo apt-get update
-- sudo apt-get install -y libappindicator1 fonts-liberation
-- sudo apt-get upgrade -y libstdc++6 lsb-base
-- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-- sudo dpkg -i google-chrome*.deb
 install:
+- npm install npm@latest -g
 - npm install --ignore-scripts
 - ./node_modules/.bin/bower install
 deploy:
