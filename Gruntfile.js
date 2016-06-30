@@ -223,7 +223,7 @@ module.exports = function (grunt) {
 			},
 			test: {
 				concat: {
-					"PATH": {
+					'PATH': {
 						value: 'node_modules/chromedriver/lib/chromedriver',
 						delimiter: ';'
 					}
